@@ -1,10 +1,19 @@
-package com.example.tema2;
+package com.example.tema2.models;
 
-public class Frigider {
+public class Laptop {
     private int id;
     private String nume;
     private float pret;
     private int cantitate;
+    private int imageResourceId;
+
+    public Laptop(int id, String nume, float pret, int cantitate, int imageResourceId) {
+        this.id = id;
+        this.nume = nume;
+        this.pret = pret;
+        this.cantitate = cantitate;
+        this.imageResourceId = imageResourceId;
+    }
 
     public int getId() {
         return id;
@@ -38,13 +47,22 @@ public class Frigider {
         this.cantitate = cantitate;
     }
 
+    public int getImageResourceId() {
+        return imageResourceId;
+    }
+
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
+    }
+
     @Override
     public String toString() {
-        return "Frigider{" +
+        return "Laptop{" +
                 "id=" + id +
                 ", nume='" + nume + '\'' +
                 ", pret=" + pret +
                 ", cantitate=" + cantitate +
+                ", imageResourceId=" + imageResourceId +
                 '}';
     }
 }

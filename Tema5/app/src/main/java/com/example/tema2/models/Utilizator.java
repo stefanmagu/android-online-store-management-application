@@ -1,4 +1,4 @@
-package com.example.tema2;
+package com.example.tema2.models;
 
 import java.io.Serializable;
 

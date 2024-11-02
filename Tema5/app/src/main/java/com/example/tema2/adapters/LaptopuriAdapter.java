@@ -1,4 +1,4 @@
-package com.example.tema2;
+package com.example.tema2.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,20 +13,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.tema2.R;
+import com.example.tema2.models.Laptop;
+
 import java.util.List;
 
-public class TelefoaneAdapter extends ArrayAdapter<Telefon> {
-
+public class LaptopuriAdapter extends ArrayAdapter<Laptop> {
     private Context context;
     private int layoutId;
-    private List<Telefon> telefoaneList;
+    private List<Laptop> laptopuriList;
     private LayoutInflater inflater;
 
-    public TelefoaneAdapter(@NonNull Context context, int resource, @NonNull List<Telefon> telefoaneList, LayoutInflater inflater) {
-        super(context, resource, telefoaneList);
+    public LaptopuriAdapter(@NonNull Context context, int resource, @NonNull List<Laptop> laptopuriList, LayoutInflater inflater) {
+        super(context, resource, laptopuriList);
         this.context = context;
         this.layoutId = resource;
-        this.telefoaneList = telefoaneList;
+        this.laptopuriList = laptopuriList;
         this.inflater = inflater;
     }
 
@@ -34,7 +36,7 @@ public class TelefoaneAdapter extends ArrayAdapter<Telefon> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = inflater.inflate(R.layout.view_produs,parent,false);
-        Telefon telefon = telefoaneList.get(position);
+        Laptop laptop = laptopuriList.get(position);
 
         ImageView ivProdus = view.findViewById(R.id.ivProdus);
         TextView tvIdProdus = view.findViewById(R.id.tvIdProdus);
@@ -42,30 +44,34 @@ public class TelefoaneAdapter extends ArrayAdapter<Telefon> {
         TextView tvPretProdus = view.findViewById(R.id.tvPretProdus);
         TextView tvCantitateProdus = view.findViewById(R.id.tvCantitateProdus);
 
-        ivProdus.setImageResource(telefon.getImageResourceId());
-        tvIdProdus.setText("Id: " + telefon.getId());
-        tvNumeProdus.setText("Nume: " + telefon.getNume());
-        tvPretProdus.setText("Pret: " + telefon.getPret() + " RON");
-        tvCantitateProdus.setText("Cantitate: " + telefon.getCantitate());
 
-        if (telefon.getPret() > 300) {
+        if (laptop.getPret() > 5000) {
             tvPretProdus.setTextColor(Color.RED);
         } else {
             tvPretProdus.setTextColor(Color.BLACK);
         }
 
-        if (telefon.getNume().toLowerCase().contains("premium")) {
+        if (laptop.getNume().toLowerCase().contains("gaming") || laptop.getNume().toLowerCase().contains("pro")) {
             tvNumeProdus.setTypeface(null, Typeface.BOLD);
         } else {
             tvNumeProdus.setTypeface(null, Typeface.NORMAL);
         }
 
-        if (telefon.getCantitate() < 10) {
+
+        if (laptop.getCantitate() < 5) {
             tvCantitateProdus.setTypeface(null, Typeface.ITALIC);
+            tvCantitateProdus.setTextColor(Color.parseColor("#FFA500"));
         } else {
             tvCantitateProdus.setTypeface(null, Typeface.NORMAL);
         }
 
+        ivProdus.setImageResource(laptop.getImageResourceId());
+        tvIdProdus.setText("Id: " + laptop.getId());
+        tvNumeProdus.setText("Nume: " + laptop.getNume());
+        tvPretProdus.setText("Pret: " + laptop.getPret() + " RON");
+        tvCantitateProdus.setText("Cantitate: " + laptop.getCantitate());
+
         return view;
     }
+
 }

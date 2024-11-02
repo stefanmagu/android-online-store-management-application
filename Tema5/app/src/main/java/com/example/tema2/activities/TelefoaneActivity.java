@@ -1,4 +1,4 @@
-package com.example.tema2;
+package com.example.tema2.activities;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.tema2.R;
+import com.example.tema2.adapters.TelefoaneAdapter;
+import com.example.tema2.models.Telefon;
 
 import java.util.ArrayList;
 import java.util.Arrays;

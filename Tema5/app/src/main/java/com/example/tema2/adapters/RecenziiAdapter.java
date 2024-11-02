@@ -1,4 +1,4 @@
-package com.example.tema2;
+package com.example.tema2.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.tema2.R;
+import com.example.tema2.models.Recenzie;
 
 import java.util.List;
 
