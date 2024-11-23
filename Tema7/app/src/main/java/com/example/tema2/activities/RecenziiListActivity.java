@@ -19,6 +19,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.tema2.R;
 import com.example.tema2.adapters.RecenziiAdapter;
 import com.example.tema2.models.Recenzie;
+import com.example.tema2.models.Utilizator;
+import com.example.tema2.roomDatabases.AppRoomDB;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class RecenziiListActivity extends AppCompatActivity {
             return insets;
         });
 
-
         tvNameOfListView = findViewById(R.id.tvNameOfListView);
         SharedPreferences sharedPreferences = getSharedPreferences("dateUtilizatorLogat", MODE_PRIVATE);
         String numeUtilizatorLogat = sharedPreferences.getString("nume", "SharedPreferencesNumeError");
@@ -54,23 +55,15 @@ public class RecenziiListActivity extends AppCompatActivity {
         FloatingActionButton fabAddRecenziiList = findViewById(R.id.fabAddRecenziiList);
         lvRecenzii = findViewById(R.id.lvRecenzii);
 
+        populateListByUserLogged();
         RecenziiAdapter adapter = new RecenziiAdapter(this, R.layout.view_recenzie, recenziiList, getLayoutInflater());
         lvRecenzii.setAdapter(adapter);
 
         recenziiLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                Intent data = result.getData();
-
-                if (data.hasExtra("edit")) { // edit
-                    Recenzie editedRecenzie = (Recenzie) data.getSerializableExtra("edit");
-                    if (pozitieRecenzieInLista != -1) {
-                        recenziiList.set(pozitieRecenzieInLista, editedRecenzie);
-                        pozitieRecenzieInLista = -1;
-                    }
-                } else if (data.hasExtra("recenzie")) { // add
-                    Recenzie newRecenzie = (Recenzie) data.getSerializableExtra("recenzie");
-                    recenziiList.add(newRecenzie);
-                }
+            if (result.getResultCode() == RESULT_OK) {
+                populateListByUserLogged();
+                adapter.clear();
+                adapter.addAll(recenziiList);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -86,5 +79,33 @@ public class RecenziiListActivity extends AppCompatActivity {
             editIntent.putExtra("edit", recenziiList.get(pozitieRecenzieInLista));
             recenziiLauncher.launch(editIntent);
         });
+        lvRecenzii.setOnItemLongClickListener((adapterView, view, position, id) -> {
+            AppRoomDB dbInstance = AppRoomDB.getInstance(getApplicationContext());
+
+            Recenzie selectedRecenzie = recenziiList.get(position);
+
+            dbInstance.getRecenzieDAO().deleteRecenzie(selectedRecenzie.getIdRecenzie());
+
+            populateListByUserLogged();
+
+            RecenziiAdapter adapter1 = (RecenziiAdapter) lvRecenzii.getAdapter();
+            adapter1.clear();
+            adapter1.addAll(recenziiList);
+            adapter1.notifyDataSetChanged();
+
+            Toast.makeText(this, "Review deleted", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+    }
+
+    public void populateListByUserLogged() {
+        SharedPreferences sharedPreferences = getSharedPreferences("dateUtilizatorLogat", MODE_PRIVATE);
+        String numeUtilizatorLogat = sharedPreferences.getString("nume", "SharedPreferencesNumeError");
+        String prenumeUtilizatorLogat = sharedPreferences.getString("prenume", "SharedPreferencesPrenumeError");
+        String parolaUtilizatorLogat = sharedPreferences.getString("parola", "SharedPreferencesParolaError");
+
+        AppRoomDB instance = AppRoomDB.getInstance(getApplicationContext());
+        int idUtilizatorLogat = instance.getUtilizatorDAO().getIdUtilizator(numeUtilizatorLogat, prenumeUtilizatorLogat, parolaUtilizatorLogat);
+        recenziiList = instance.getRecenzieDAO().getRecenziiUtilizatorLogged(idUtilizatorLogat);
     }
 }

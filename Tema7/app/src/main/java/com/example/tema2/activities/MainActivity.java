@@ -17,10 +17,15 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tema2.R;
 import com.example.tema2.models.Utilizator;
+import com.example.tema2.roomDatabases.AppRoomDB;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     ActivityResultLauncher<Intent> launcher;
+    List<Utilizator> utilizatori = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +64,17 @@ public class MainActivity extends AppCompatActivity {
             }
 
             Utilizator utilizator = new Utilizator(nume,prenume,parola);
+            createSharedPreferencesUtilizator(utilizator);
 
-            Intent intent = new Intent(getApplicationContext(), ProduseActivity.class);
-            intent.putExtra("data",utilizator);
+            if(utilizatorExists(utilizator)) {
+                Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), ProduseActivity.class);
+                intent.putExtra("data",utilizator);
+                launcher.launch(intent);
+            } else{
+                Toast.makeText(this, "Nume sau parola gresita!", Toast.LENGTH_SHORT).show();
+            }
 
-            SharedPreferences sharedPreferences = getSharedPreferences("dateUtilizatorLogat",MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("nume",nume);
-            editor.putString("prenume",prenume);
-            editor.putString("parola",parola);
-
-            editor.apply();
-
-
-            launcher.launch(intent);
         });
 
         btnRegister.setOnClickListener(view -> {
@@ -81,5 +83,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public boolean utilizatorExists(Utilizator utilizator){
+        AppRoomDB dbInstance = AppRoomDB.getInstance(getApplicationContext());
+        utilizatori = dbInstance.getUtilizatorDAO().getUtilizatori();
+
+       return utilizatori.contains(utilizator);
+    }
+
+    public void createSharedPreferencesUtilizator(Utilizator utilizator){
+        SharedPreferences sharedPreferences = getSharedPreferences("dateUtilizatorLogat",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("nume",utilizator.getNume());
+        editor.putString("prenume",utilizator.getPrenume());
+        editor.putString("parola",utilizator.getParola());
+
+        editor.apply();
     }
 }

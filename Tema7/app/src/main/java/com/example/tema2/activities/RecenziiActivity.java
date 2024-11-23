@@ -19,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tema2.R;
 import com.example.tema2.models.Recenzie;
+import com.example.tema2.roomDatabases.AppRoomDB;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RecenziiActivity extends AppCompatActivity {
@@ -62,24 +63,28 @@ public class RecenziiActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("dateUtilizatorLogat", MODE_PRIVATE);
         String numeUtilizatorLogat = sharedPreferences.getString("nume", "SharedPreferencesNumeError");
         String prenumeUtilizatorLogat = sharedPreferences.getString("prenume", "SharedPreferencesPrenumeError");
+        String parolaUtilizatorLogat = sharedPreferences.getString("parola", "SharedPreferencesParolaError");
 
         tvNumeUtilizatorLogat.setText("Account:" + numeUtilizatorLogat + " " + prenumeUtilizatorLogat);
-
 
         btnSubmitRecenzie.setOnClickListener(view -> {
             String nume = etNumeRecenzie.getText().toString();
             String text = etTextRecenzie.getText().toString();
             float rating = rbRating.getRating();
 
-            Recenzie recenzie = new Recenzie(nume, text, rating);
+            AppRoomDB dbInstance = AppRoomDB.getInstance(getApplicationContext());
 
-            Intent resultIntent = new Intent();
+            int idUtilizator = dbInstance.getUtilizatorDAO().getIdUtilizator(numeUtilizatorLogat, prenumeUtilizatorLogat, parolaUtilizatorLogat);
+            Recenzie recenzie = new Recenzie(nume, text, rating, idUtilizator);
+
             if (isEditing) {
-                resultIntent.putExtra("edit", recenzie);
+                recenzie.setIdRecenzie(recenzieToEdit.getIdRecenzie());
+                dbInstance.getRecenzieDAO().updateRecenzie(recenzie);
             } else {
-                resultIntent.putExtra("recenzie", recenzie);
+                dbInstance.getRecenzieDAO().insertRecenzie(recenzie);
             }
-            setResult(RESULT_OK, resultIntent);
+
+            setResult(RESULT_OK);
             finish();
         });
     }
