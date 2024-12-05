@@ -1,0 +1,60 @@
+package com.example.tema2.activities;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.tema2.R;
+import com.example.tema2.adapters.LaptopuriAdapter;
+import com.example.tema2.adapters.MonitoareAdapter;
+import com.example.tema2.httpsManagers.HttpsManager;
+import com.example.tema2.models.Monitor;
+import com.example.tema2.parsers.LaptopJsonParser;
+import com.example.tema2.parsers.MonitorJsonParser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MonitoareActivity extends AppCompatActivity {
+    private final String jsonURL = "https://jsonkeeper.com/b/FGFQ";
+    private ListView lvMonitoare;
+    private static List<Monitor> monitoare = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_monitoare);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        lvMonitoare = findViewById(R.id.lvMonitoare);
+
+        MonitoareAdapter adapter = new MonitoareAdapter(getApplicationContext(),R.layout.view_produs,monitoare,getLayoutInflater());
+        lvMonitoare.setAdapter(adapter);
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                HttpsManager httpsManager = new HttpsManager(jsonURL);
+                String rezultat = httpsManager.procesare();
+
+                runOnUiThread(() -> {
+                    monitoare.clear();
+                    monitoare.addAll(MonitorJsonParser.getMonitoare(rezultat));
+                    adapter.notifyDataSetChanged();
+                });
+            }
+        };
+        thread.start();
+
+    }
+}
