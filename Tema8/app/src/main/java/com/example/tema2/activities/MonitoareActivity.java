@@ -2,6 +2,7 @@ package com.example.tema2.activities;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +41,11 @@ public class MonitoareActivity extends AppCompatActivity {
 
         MonitoareAdapter adapter = new MonitoareAdapter(getApplicationContext(),R.layout.view_produs,monitoare,getLayoutInflater());
         lvMonitoare.setAdapter(adapter);
+
+        lvMonitoare.setOnItemClickListener((parent, view, position, id) -> {
+            String text = "Ai achizitionat produsul " + monitoare.get((int)id).getNume()+"!";
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        });
 
         Thread thread = new Thread() {
             @Override

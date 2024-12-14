@@ -11,7 +11,7 @@
         android:id="@+id/tvVoucher"
         android:layout_width="187dp"
         android:layout_height="23dp"
-        android:text="Nu ai niciun voucher!"
+        android:text="Nu ai vouchere!"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -3,6 +3,7 @@ package com.example.tema2.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,11 @@ public class TelefoaneActivity extends AppCompatActivity {
 
         TelefoaneAdapter adapter = new TelefoaneAdapter(getApplicationContext(),R.layout.view_produs,telefoane,getLayoutInflater());
         lvTelefoane.setAdapter(adapter);
+
+        lvTelefoane.setOnItemClickListener((parent, view, position, id) -> {
+            String text = "Ai achizitionat produsul " + telefoane.get((int)id).getNume()+"!";
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        });
 
         Thread thread = new Thread() {
             @Override

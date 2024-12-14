@@ -2,6 +2,7 @@ package com.example.tema2.activities;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,11 @@ public class FrigidereActivity extends AppCompatActivity {
 
         FrigidereAdapter adapter = new FrigidereAdapter(getApplicationContext(),R.layout.view_produs,frigidere,getLayoutInflater());
         lvFrigidere.setAdapter(adapter);
+
+        lvFrigidere.setOnItemClickListener((parent, view, position, id) -> {
+            String text = "Ai achizitionat produsul " + frigidere.get((int)id).getNume()+"!";
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        });
 
         Thread thread = new Thread() {
             @Override

@@ -38,7 +38,7 @@ public class RecenziiAdapter extends ArrayAdapter<Recenzie> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View view = inflater.inflate(R.layout.view_recenzie,parent,false);
+        View view = inflater.inflate(R.layout.view_recenzie, parent, false);
         Recenzie recenzie = recenzieList.get(position);
 
         TextView tvSubmitedNumeRecenzie = view.findViewById(R.id.tvSubmitedNumeRecenzie);
@@ -46,9 +46,9 @@ public class RecenziiAdapter extends ArrayAdapter<Recenzie> {
         TextView tvSubmitedRatingRecenzie = view.findViewById(R.id.tvSubmitedRatingRecenzie);
 
 
-        tvSubmitedNumeRecenzie.setText(recenzie.getNume());
-        tvSubmitedTextRecenzie.setText(recenzie.getRecenzie());
-        tvSubmitedRatingRecenzie.setText(String.format("%s/5.0", recenzie.getRating()));
+        tvSubmitedNumeRecenzie.setText("Nume produs: " + recenzie.getNume());
+        tvSubmitedTextRecenzie.setText("Descriere: " + recenzie.getRecenzie());
+        tvSubmitedRatingRecenzie.setText(String.format("Rating: %s/5.0", recenzie.getRating()));
 
         //validari & costumizari
 
@@ -58,7 +58,7 @@ public class RecenziiAdapter extends ArrayAdapter<Recenzie> {
         } else if (recenzie.getRating() < 2.0) {
             tvSubmitedRatingRecenzie.setTextColor(Color.RED);
             tvSubmitedRatingRecenzie.setTypeface(null, Typeface.ITALIC);
-        } else{
+        } else {
             tvSubmitedRatingRecenzie.setTextColor(Color.parseColor("#E4D00A"));
         }
 
@@ -73,7 +73,6 @@ public class RecenziiAdapter extends ArrayAdapter<Recenzie> {
             tvSubmitedNumeRecenzie.setTypeface(null, Typeface.ITALIC);
             tvSubmitedNumeRecenzie.setTextColor(Color.parseColor("#1702fa"));
         }
-
 
 
         return view;
