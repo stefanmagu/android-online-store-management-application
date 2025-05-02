@@ -1,0 +1,62 @@
+package com.example.app.activities;
+
+import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.example.app.R;
+import com.example.app.adapters.FrigidereAdapter;
+import com.example.app.httpsManagers.HttpsManager;
+import com.example.app.models.Frigider;
+import com.example.app.parsers.FrigiderJsonParser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FrigidereActivity extends AppCompatActivity {
+
+    private ListView lvFrigidere;
+    private List<Frigider> frigidere = new ArrayList<>();
+    private final  String jsonURL = "https://www.jsonkeeper.com/b/GTN8";
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_frigidere);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        lvFrigidere = findViewById(R.id.lvFrigidere);
+
+        FrigidereAdapter adapter = new FrigidereAdapter(getApplicationContext(),R.layout.view_produs,frigidere,getLayoutInflater());
+        lvFrigidere.setAdapter(adapter);
+
+        lvFrigidere.setOnItemClickListener((parent, view, position, id) -> {
+            String text = "Ai achizitionat produsul " + frigidere.get((int)id).getNume()+"!";
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+        });
+
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                HttpsManager httpsManager = new HttpsManager(jsonURL);
+                String rezultat = httpsManager.procesare();
+
+                runOnUiThread(() -> {
+                    frigidere.clear();
+                    frigidere.addAll(FrigiderJsonParser.getfrigidere(rezultat));
+                    adapter.notifyDataSetChanged();
+                });
+            }
+        };
+        thread.start();
+    }
+}

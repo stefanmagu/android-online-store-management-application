@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.app.activities.RegisterActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/toplistRegisterLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/toplist" />
+
+    <TextView
+        android:id="@+id/tvRegisterForm"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:text="Register Form"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvRegisterNume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Nume"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etRegisterNume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:gravity="center"
+        android:inputType="text"
+        android:text=""
+        android:textFontWeight="300" />
+
+    <TextView
+        android:id="@+id/tvRegisterPrenume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Prenume"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etRegisterPrenume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:gravity="center"
+        android:inputType="text"
+        android:text=""
+        android:textFontWeight="300" />
+
+        <TextView
+        android:id="@+id/tvRegisterParola"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Parola"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etRegisterParola"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:text=""
+        android:textFontWeight="300" />
+
+    <TextView
+        android:id="@+id/tvConfirmParola"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Confirma Parola"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etConfirmParola"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="11"
+        android:gravity="center"
+        android:inputType="textPassword"
+        android:text=""
+        android:textFontWeight="300" />
+
+    <Button
+        android:id="@+id/btnRegisterSubmit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#D22B2B"
+        android:padding="10dp"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:text="Register" />
+
+    <Button
+        android:id="@+id/btnBackToLogin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#D22B2B"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:text="Back to Login" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
