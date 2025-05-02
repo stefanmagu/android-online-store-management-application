@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:title="Lasa o recenzie" android:id="@+id/idRecenzieMenu" />
-    <item android:title="Vouchere" android:id="@+id/idVouchereMenu"/>
-    <item android:title="Log out" android:id="@+id/idLogOutMenu" />
-</menu>
